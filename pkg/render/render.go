@@ -16,9 +16,7 @@ func NewTemplate(a *config.AppConfig) {
 	app = a
 }
 
-var functions = template.FuncMap{
-
-}
+var functions = template.FuncMap{}
 
 //RenderTemplate is a template parser and executor
 func RenderTemplate(w http.ResponseWriter, tmpl string) {
@@ -29,6 +27,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 		tc = app.TemplateCache
 	} else {
 		tc, _ = NewTemplateCache()
+		log.Println("UseCache: NO Rebuilding cache")
 
 	}
 
