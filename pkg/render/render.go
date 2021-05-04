@@ -19,6 +19,10 @@ func NewTemplate(a *config.AppConfig) {
 
 var functions = template.FuncMap{}
 
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
 //RenderTemplate is a template parser and executor
 func RenderTemplate(w http.ResponseWriter, tmpl string, d *models.TemplateData) {
 
@@ -39,6 +43,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, d *models.TemplateData) 
 
 	buf := new(bytes.Buffer)
 
+	d = AddDefaultData(d)
 	_ = t.Execute(buf, d)
 
 	_, err := buf.WriteTo(w)

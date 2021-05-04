@@ -11,8 +11,6 @@ import (
 
 const portN = ":8080"
 
-
-
 func main() {
 	var app config.AppConfig
 
@@ -26,11 +24,16 @@ func main() {
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandler(repo)
-
 	render.NewTemplate(&app)
 
-	http.HandleFunc("/", handlers.Repo.Home)
-	http.HandleFunc("/about", handlers.Repo.About)
-	fmt.Printf("Starting on port %v\n",portN)
-	_ = http.ListenAndServe(portN, nil)
+	fmt.Printf("Starting on port %v\n", portN)
+
+	srv := &http.Server{
+		Addr:    portN,
+		Handler: routes(&app),
+	}
+	err = srv.ListenAndServe()
+	if err != nil {
+		log.Fatal("Error  - starting the server", err)
+	}
 }
