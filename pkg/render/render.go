@@ -3,6 +3,7 @@ package render
 import (
 	"bytes"
 	"github.com/sokolovss/BNBsite/pkg/config"
+	"github.com/sokolovss/BNBsite/pkg/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -19,7 +20,7 @@ func NewTemplate(a *config.AppConfig) {
 var functions = template.FuncMap{}
 
 //RenderTemplate is a template parser and executor
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, d *models.TemplateData) {
 
 	var tc map[string]*template.Template
 
@@ -27,7 +28,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 		tc = app.TemplateCache
 	} else {
 		tc, _ = NewTemplateCache()
-		log.Println("UseCache: NO Rebuilding cache")
+		log.Println("UseCache = False. Rebuilding cache")
 
 	}
 
@@ -38,7 +39,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	buf := new(bytes.Buffer)
 
-	_ = t.Execute(buf, nil)
+	_ = t.Execute(buf, d)
 
 	_, err := buf.WriteTo(w)
 	if err != nil {
