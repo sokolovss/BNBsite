@@ -28,6 +28,8 @@ func NewHandler(r *Repository) {
 
 //Home is the home page handler
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
+	remoteIP := r.RemoteAddr
+	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
 	render.RenderTemplate(w, "index.page.tmpl", &models.TemplateData{})
 }
 
@@ -39,5 +41,8 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//send to the template
-	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{StringMap: sm})
+	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{
+		StringMap: sm,
+	})
+
 }
