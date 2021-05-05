@@ -2,13 +2,21 @@
 
 
 {{define "content"}}
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h1>This is the about page</h1>
-            <p>This is some text</p>
-            <p>This came form the back: {{index .StringMap "test"}}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>This is the about page</h1>
+                <p>This is some text</p>
+                <p>This came form the back: {{index .StringMap "test"}}</p>
+                <p>{{if ne (index .StringMap "remote_ip") ""}}
+
+                    Your IP address is: {{index .StringMap "remote_ip"}}
+
+                    {{end}}
+
+
+                </p>
+            </div>
         </div>
     </div>
-</div>
 {{end}}

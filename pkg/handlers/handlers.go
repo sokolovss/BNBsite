@@ -40,6 +40,9 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 		"test": "Hello again",
 	}
 
+	remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
+	sm["remote_ip"] = remoteIP
+
 	//send to the template
 	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{
 		StringMap: sm,
