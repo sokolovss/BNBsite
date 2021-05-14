@@ -33,6 +33,26 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "index.page.tmpl", &models.TemplateData{})
 }
 
+//Generals renders the room page
+func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "generals.page.tmpl", &models.TemplateData{})
+}
+
+//Colonels renders the room page
+func (m *Repository) Colonels(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "colonels.page.tmpl", &models.TemplateData{})
+}
+
+//Contacts renders contacts page
+func (m *Repository) Contacts(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "contacts.page.tmpl", &models.TemplateData{})
+}
+
+//SearchAvailability renders search-availability page
+func (m *Repository) SearchAvailability(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{})
+}
+
 // About is the about page handler
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	//perform logic
