@@ -53,9 +53,14 @@ func (m *Repository) SearchAvailability(w http.ResponseWriter, r *http.Request) 
 	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{})
 }
 
+//PostAvailability handles POST from dearch-availability form
+func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Posted to search-availability"))
+}
+
 //Reservation renders search-availability page
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, "reservation.page.tmpl", &models.TemplateData{})
 }
 
 // About is the about page handler
