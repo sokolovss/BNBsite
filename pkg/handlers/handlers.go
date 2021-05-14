@@ -53,6 +53,11 @@ func (m *Repository) SearchAvailability(w http.ResponseWriter, r *http.Request) 
 	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{})
 }
 
+//Reservation renders search-availability page
+func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{})
+}
+
 // About is the about page handler
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	//perform logic
