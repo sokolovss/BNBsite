@@ -11,6 +11,7 @@ import (
 func routes(app *config.AppConfig) http.Handler {
 	mux := chi.NewMux()
 
+	mux.Use(middleware.Logger)
 	mux.Use(middleware.Recoverer)
 	mux.Use(NoSurf)
 	mux.Use(SessionLoad)

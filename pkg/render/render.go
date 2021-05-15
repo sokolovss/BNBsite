@@ -2,6 +2,7 @@ package render
 
 import (
 	"bytes"
+	"github.com/justinas/nosurf"
 	"github.com/sokolovss/BNBsite/pkg/config"
 	"github.com/sokolovss/BNBsite/pkg/models"
 	"html/template"
@@ -19,12 +20,13 @@ func NewTemplate(a *config.AppConfig) {
 
 var functions = template.FuncMap{}
 
-func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
 //RenderTemplate is a template parser and executor
-func RenderTemplate(w http.ResponseWriter, tmpl string, d *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, d *models.TemplateData) {
 
 	var tc map[string]*template.Template
 
@@ -43,7 +45,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, d *models.TemplateData) 
 
 	buf := new(bytes.Buffer)
 
-	d = AddDefaultData(d)
+	d = AddDefaultData(d, r)
 	_ = t.Execute(buf, d)
 
 	_, err := buf.WriteTo(w)

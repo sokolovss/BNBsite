@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/sokolovss/BNBsite/pkg/config"
 	"github.com/sokolovss/BNBsite/pkg/models"
 	"github.com/sokolovss/BNBsite/pkg/render"
@@ -30,37 +31,39 @@ func NewHandler(r *Repository) {
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	remoteIP := r.RemoteAddr
 	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
-	render.RenderTemplate(w, "index.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "index.page.tmpl", &models.TemplateData{})
 }
 
 //Generals renders the room page
 func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "generals.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "generals.page.tmpl", &models.TemplateData{})
 }
 
 //Colonels renders the room page
 func (m *Repository) Colonels(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "colonels.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "colonels.page.tmpl", &models.TemplateData{})
 }
 
 //Contacts renders contacts page
 func (m *Repository) Contacts(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "contacts.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "contacts.page.tmpl", &models.TemplateData{})
 }
 
 //SearchAvailability renders search-availability page
 func (m *Repository) SearchAvailability(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "search-availability.page.tmpl", &models.TemplateData{})
 }
 
-//PostAvailability handles POST from dearch-availability form
+//PostAvailability handles POST from search-availability form
 func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Posted to search-availability"))
+	s := r.Form.Get("start_date")
+	e := r.Form.Get("end_date")
+	w.Write([]byte(fmt.Sprintf("Start date is %s and end date is %s", s, e)))
 }
 
 //Reservation renders search-availability page
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "reservation.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "reservation.page.tmpl", &models.TemplateData{})
 }
 
 // About is the about page handler
@@ -74,7 +77,7 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	sm["remote_ip"] = remoteIP
 
 	//send to the template
-	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{
+	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{
 		StringMap: sm,
 	})
 
