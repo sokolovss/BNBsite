@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/sokolovss/BNBsite/pkg/config"
 	"github.com/sokolovss/BNBsite/pkg/models"
 	"github.com/sokolovss/BNBsite/pkg/render"
+	"log"
 	"net/http"
 )
 
@@ -59,6 +61,28 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 	s := r.Form.Get("start_date")
 	e := r.Form.Get("end_date")
 	w.Write([]byte(fmt.Sprintf("Start date is %s and end date is %s", s, e)))
+}
+
+type jsonResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+//AvailabilityJSON handles request from availability form and returns JSON
+func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+
+	resp := jsonResponse{
+		OK: true,
+
+		Message: "Available",
+	}
+	out, err := json.MarshalIndent(resp, "", "     ")
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(string(out))
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }
 
 //Reservation renders search-availability page
