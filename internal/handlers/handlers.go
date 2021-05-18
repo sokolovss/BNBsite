@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	config "github.com/sokolovss/BNBsite/internal/config"
+	"github.com/sokolovss/BNBsite/internal/forms"
 	models "github.com/sokolovss/BNBsite/internal/models"
 	render "github.com/sokolovss/BNBsite/internal/render"
 	"log"
@@ -87,7 +88,15 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 
 //Reservation renders search-availability page
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "reservation.page.tmpl", &models.TemplateData{})
+	render.RenderTemplate(w, r, "reservation.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+	})
+}
+
+//PostReservation handles posting of reservation form
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+	log.Println("got to the handler")
+
 }
 
 // About is the about page handler
