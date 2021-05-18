@@ -3,8 +3,8 @@ package render
 import (
 	"bytes"
 	"github.com/justinas/nosurf"
-	"github.com/sokolovss/BNBsite/pkg/config"
-	"github.com/sokolovss/BNBsite/pkg/models"
+	config "github.com/sokolovss/BNBsite/internal/config"
+	models "github.com/sokolovss/BNBsite/internal/models"
 	"html/template"
 	"log"
 	"net/http"

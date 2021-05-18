@@ -3,9 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/sokolovss/BNBsite/pkg/config"
-	"github.com/sokolovss/BNBsite/pkg/models"
-	"github.com/sokolovss/BNBsite/pkg/render"
+	config "github.com/sokolovss/BNBsite/internal/config"
+	models "github.com/sokolovss/BNBsite/internal/models"
+	render "github.com/sokolovss/BNBsite/internal/render"
 	"log"
 	"net/http"
 )

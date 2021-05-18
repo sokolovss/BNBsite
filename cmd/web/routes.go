@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/sokolovss/BNBsite/pkg/config"
-	"github.com/sokolovss/BNBsite/pkg/handlers"
+	config "github.com/sokolovss/BNBsite/internal/config"
+	handlers "github.com/sokolovss/BNBsite/internal/handlers"
 	"net/http"
 )
 

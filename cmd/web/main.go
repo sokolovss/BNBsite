@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/alexedwards/scs/v2"
-	"github.com/sokolovss/BNBsite/pkg/config"
-	"github.com/sokolovss/BNBsite/pkg/handlers"
-	"github.com/sokolovss/BNBsite/pkg/render"
+	config "github.com/sokolovss/BNBsite/internal/config"
+	handlers "github.com/sokolovss/BNBsite/internal/handlers"
+	render "github.com/sokolovss/BNBsite/internal/render"
 	"log"
 	"net/http"
 	"time"
