@@ -19,7 +19,7 @@ func New(data url.Values) *Form {
 	}
 }
 
-//Has checks if from field is not empty
+//Has checks if form field is not empty
 func (f *Form) Has(field string, r *http.Request) bool {
 	x := r.Form.Get(field)
 	if x == "" {
@@ -27,4 +27,8 @@ func (f *Form) Has(field string, r *http.Request) bool {
 	} else {
 		return true
 	}
+}
+
+func (f *Form) Valid() bool {
+	return len(f.Errors) == 0
 }
