@@ -31,6 +31,7 @@ func main() {
 
 	tc, err := render.NewTemplateCache()
 	if err != nil {
+		log.Println(err)
 		log.Fatal("Cannot create templates cache")
 	}
 
