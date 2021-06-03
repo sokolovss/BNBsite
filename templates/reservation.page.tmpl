@@ -26,16 +26,31 @@
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last name:</label>
+
+                        {{with .Form.Errors.Get "last_name"}}
+                            <label class="text-danger">{{.}}</label>
+                        {{end}}
+
                         <input type="text" name="last_name" id="last_name" class="form-control" required
                                autocomplete="off" value="{{$res.LastName}}">
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
+
+                        {{with .Form.Errors.Get "email"}}
+                            <label class="text-danger">{{.}}</label>
+                        {{end}}
+
                         <input type="text" name="email" id="email" class="form-control" required autocomplete="off"
                                value="{{$res.Email}}">
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone #:</label>
+
+                        {{with .Form.Errors.Get "phone"}}
+                            <label class="text-danger">{{.}}</label>
+                        {{end}}
+
                         <input type="text" name="phone" id="phone" class="form-control" required autocomplete="off"
                                value="{{$res.Phone}}">
                     </div>
