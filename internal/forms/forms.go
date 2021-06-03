@@ -2,6 +2,7 @@ package forms
 
 import (
 	"fmt"
+	"github.com/asaskevich/govalidator"
 	"net/http"
 	"net/url"
 	"strings"
@@ -41,11 +42,16 @@ func (f *Form) MinLength(field string, length int, r *http.Request) bool {
 	return true
 }
 
+func (f *Form) IsEmail(field string) {
+	if !govalidator.IsEmail(f.Get(field)) {
+		f.Errors.Add(field, "Email format is incorrect")
+	}
+}
+
 //Has checks if form field is not empty
 func (f *Form) Has(field string, r *http.Request) bool {
 	x := r.Form.Get(field)
 	if x == "" {
-		f.Errors.Add(field, "This field cannot be blank")
 		return false
 	} else {
 		return true
