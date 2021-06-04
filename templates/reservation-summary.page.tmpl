@@ -3,6 +3,7 @@
 
 {{define "content"}}
 <div class="container">
+    {{$res := index .Data "reservation"}}
     <div class="row">
         <div class="col">
             <h1 class="mt-5">Reservation Summary</h1>
@@ -13,7 +14,7 @@
                 <tbody>
                 <tr>
                     <td>Name:</td>
-                    <td></td>
+                    <td>{{$res.FirstName}} {{$res.LastName}}</td>
                 </tr>
                 <tr>
                     <td>Arrival:</td>
@@ -25,11 +26,11 @@
                 </tr>
                 <tr>
                     <td>Email:</td>
-                    <td></td>
+                    <td>{{$res.Email}}</td>
                 </tr>
                 <tr>
                     <td>Phone:</td>
-                    <td></td>
+                    <td>{{$res.Phone}}</td>
                 </tr>
                 </tbody>
             </table>

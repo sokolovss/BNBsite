@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"github.com/alexedwards/scs/v2"
 	config "github.com/sokolovss/BNBsite/internal/config"
 	handlers "github.com/sokolovss/BNBsite/internal/handlers"
+	"github.com/sokolovss/BNBsite/internal/models"
 	render "github.com/sokolovss/BNBsite/internal/render"
 	"log"
 	"net/http"
@@ -17,6 +19,10 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
+
+	//Defines what will be stored in session (primitives are already built in)
+	gob.Register(models.Reservation{})
+	///////
 
 	app.IsProduction = false
 	app.UseCache = false
