@@ -87,7 +87,7 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (m *Repository) ResevationSummary(w http.ResponseWriter, r *http.Request) {
+func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
 	if !ok {
 		log.Println("Cannot get item from session")
