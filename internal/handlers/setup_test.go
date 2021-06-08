@@ -70,7 +70,6 @@ func getRoutes() http.Handler {
 
 }
 
-
 //NoSurf provides CSRF to POST requests
 func NoSurf(next http.Handler) http.Handler {
 	csrfHandler := nosurf.New(next)
@@ -86,3 +85,4 @@ func NoSurf(next http.Handler) http.Handler {
 //SessionLoad loads and saves the sessions
 func SessionLoad(next http.Handler) http.Handler {
 	return session.LoadAndSave(next)
+}
