@@ -2,6 +2,7 @@ package render
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/justinas/nosurf"
 	config "github.com/sokolovss/BNBsite/internal/config"
 	models "github.com/sokolovss/BNBsite/internal/models"
@@ -12,6 +13,8 @@ import (
 )
 
 var app *config.AppConfig
+
+var pathToTemplates = "./templates"
 
 //NewTemplate gets app config for render package
 func NewTemplate(a *config.AppConfig) {
@@ -73,7 +76,7 @@ func NewTemplateCache() (map[string]*template.Template, error) {
 		if err != nil {
 			return pCache, err
 		}
-		matches, err := filepath.Glob("./templates/*.layout.tmpl")
+		matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.tmpl", pathToTemplates))
 		if err != nil {
 			return pCache, err
 		}
