@@ -38,7 +38,7 @@ func getRoutes() http.Handler {
 
 	app.Session = session
 
-	tc, err := render.NewTemplateCache()
+	tc, err := NewTestTemplateCache()
 	if err != nil {
 		log.Println("Cannot create templates cache")
 	}
@@ -94,7 +94,7 @@ func SessionLoad(next http.Handler) http.Handler {
 }
 
 //NewTestTemplateCache creates template cache as a map
-func NewTemplateCache() (map[string]*template.Template, error) {
+func NewTestTemplateCache() (map[string]*template.Template, error) {
 	pCache := make(map[string]*template.Template)
 	p, err := filepath.Glob(fmt.Sprintf("%s/*.page.tmpl", pathToTemplates))
 	if err != nil {
