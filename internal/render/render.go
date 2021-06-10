@@ -16,12 +16,12 @@ var app *config.AppConfig
 
 var pathToTemplates = "./templates"
 
+var functions = template.FuncMap{}
+
 //NewTemplate gets app config for render package
 func NewTemplate(a *config.AppConfig) {
 	app = a
 }
-
-var functions = template.FuncMap{}
 
 func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
 	td.Flash = app.Session.PopString(r.Context(), "flash")
