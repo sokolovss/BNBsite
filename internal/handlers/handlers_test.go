@@ -11,16 +11,6 @@ type postData struct {
 	value string
 }
 
-//var theTests_old []struct{
-//	name       string
-//	url        string
-//	method     string
-//	params     []postData
-//	statusCode int
-//}{
-//{"home", "/", "GET", []postData{}, http.StatusOK},
-//}
-
 var theTests = []struct {
 	name       string
 	url        string
