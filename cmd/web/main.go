@@ -6,6 +6,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	config "github.com/sokolovss/BNBsite/internal/config"
 	handlers "github.com/sokolovss/BNBsite/internal/handlers"
+	"github.com/sokolovss/BNBsite/internal/helpers"
 	"github.com/sokolovss/BNBsite/internal/models"
 	render "github.com/sokolovss/BNBsite/internal/render"
 	"log"
@@ -73,6 +74,7 @@ func run() error {
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandler(repo)
 	render.NewTemplate(&app)
+	helpers.NewHelpers(&app)
 
 	return nil
 }
