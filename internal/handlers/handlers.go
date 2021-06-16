@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	config "github.com/sokolovss/BNBsite/internal/config"
+	"github.com/sokolovss/BNBsite/internal/driver"
 	"github.com/sokolovss/BNBsite/internal/forms"
 	"github.com/sokolovss/BNBsite/internal/helpers"
 	models "github.com/sokolovss/BNBsite/internal/models"
 	render "github.com/sokolovss/BNBsite/internal/render"
+	"github.com/sokolovss/BNBsite/internal/repository"
+	"github.com/sokolovss/BNBsite/internal/repository/dbrepo"
 	"log"
 	"net/http"
 )
@@ -17,12 +20,14 @@ var Repo *Repository
 //Repository is the repository type
 type Repository struct {
 	App *config.AppConfig
+	DB  repository.DatabaseRepo
 }
 
 //NewRepo creates new Repository
-func NewRepo(a *config.AppConfig) *Repository {
+func NewRepo(a *config.AppConfig, db *driver.DB) *Repository {
 	return &Repository{
 		App: a,
+		DB:  dbrepo.NewPostgreRepo(db.SQL, a),
 	}
 }
 

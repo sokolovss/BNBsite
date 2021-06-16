@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/alexedwards/scs/v2"
 	config "github.com/sokolovss/BNBsite/internal/config"
+	"github.com/sokolovss/BNBsite/internal/driver"
 	handlers "github.com/sokolovss/BNBsite/internal/handlers"
 	"github.com/sokolovss/BNBsite/internal/helpers"
 	"github.com/sokolovss/BNBsite/internal/models"
@@ -24,7 +25,9 @@ var errorLog *log.Logger
 
 func main() {
 
-	err := run()
+	db, err := run()
+	defer db.SQL.Close()
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,7 +44,7 @@ func main() {
 	}
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	//Defines what will be stored in session (primitives are already built in)
 	gob.Register(models.Reservation{})
 	///////
@@ -63,18 +66,26 @@ func run() error {
 
 	app.Session = session
 
+	//connect to DB
+	log.Println("Connecting to db...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bnbsite user=sergey password=")
+	if err != nil {
+		log.Fatal("Cannot connect to database", err)
+	}
+	log.Println("Connected to database")
+
 	tc, err := render.NewTemplateCache()
 	if err != nil {
 		log.Println("Cannot create templates cache")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandler(repo)
 	render.NewTemplate(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }
