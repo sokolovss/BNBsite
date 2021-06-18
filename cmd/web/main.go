@@ -47,6 +47,9 @@ func main() {
 func run() (*driver.DB, error) {
 	//Defines what will be stored in session (primitives are already built in)
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
 	///////
 
 	app.IsProduction = false
@@ -84,7 +87,7 @@ func run() (*driver.DB, error) {
 
 	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandler(repo)
-	render.NewTemplate(&app)
+	render.NewRenderer(&app)
 	helpers.NewHelpers(&app)
 
 	return db, nil
