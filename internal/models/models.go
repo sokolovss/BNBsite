@@ -50,6 +50,7 @@ type Reservations struct {
 	EndDate   time.Time
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	Room      Rooms
 }
 
 //RoomRestrictions is a model for room_restrictions table
@@ -62,4 +63,5 @@ type RoomRestrictions struct {
 	EndDate       time.Time
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
+	Room          Rooms
 }
