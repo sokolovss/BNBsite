@@ -38,7 +38,7 @@ type Restrictions struct {
 	UpdatedAt       time.Time
 }
 
-//Reservations is a model for users table
+//Reservations is a model for reservations table
 type Reservations struct {
 	ID        int
 	FirstName string
@@ -50,4 +50,16 @@ type Reservations struct {
 	EndDate   time.Time
 	CreatedAt time.Time
 	UpdatedAt time.Time
+}
+
+//RoomRestrictions is a model for room_restrictions table
+type RoomRestrictions struct {
+	ID            int
+	RoomID        int
+	ReservationID int
+	RestrictionID int
+	StartDate     time.Time
+	EndDate       time.Time
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
