@@ -11,21 +11,43 @@ type Reservation struct {
 }
 
 //Users is a model for users table
-type User struct {
-	ID           int
-	FirstName    string
-	LastName     string
-	Email        string
-	Password     string
-	access_level int
-	created_at   time.Time
-	updated_at   time.Time
+type Users struct {
+	ID          int
+	FirstName   string
+	LastName    string
+	Email       string
+	Password    string
+	AccessLevel int
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 //Rooms is a model for users table
 type Rooms struct {
-	ID         int
-	RoomName   string
-	created_at time.Time
-	updated_at time.Time
+	ID        int
+	RoomName  string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
+//Restrictions is a model for restrictions table
+type Restrictions struct {
+	ID              int
+	RestrictionName string
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
+}
+
+//Reservations is a model for users table
+type Reservations struct {
+	ID        int
+	FirstName string
+	LastName  string
+	Email     string
+	Phone     string
+	RoomID    int
+	StartDate time.Time
+	EndDate   time.Time
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
