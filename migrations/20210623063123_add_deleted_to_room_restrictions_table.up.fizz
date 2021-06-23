@@ -1,0 +1,2 @@
+add_column("room_restrictions", "is_deleted", "bool", {"default": false})
+add_column("reservations", "is_deleted", "bool", {"default": false})

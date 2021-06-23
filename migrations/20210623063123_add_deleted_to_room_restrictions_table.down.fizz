@@ -1,0 +1,2 @@
+drop_column("room_restrictions", "is_deleted")
+drop_column("reservations", "is_deleted")

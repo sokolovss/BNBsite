@@ -136,14 +136,17 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	startDate, err := time.Parse(layout, r.Form.Get("start_date"))
 	if err != nil {
 		helpers.ServerError(w, err)
+		return
 	}
 	endDate, err := time.Parse(layout, r.Form.Get("end_date"))
 	if err != nil {
 		helpers.ServerError(w, err)
+		return
 	}
 	roomID, err := strconv.Atoi(r.Form.Get("room_id"))
 	if err != nil {
 		helpers.ServerError(w, err)
+		return
 	}
 
 	reservation := models.Reservation{
@@ -171,9 +174,23 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		})
 		return
 	}
-	err = m.DB.AddReservation(reservation)
+	reservID, err := m.DB.AddReservation(reservation)
 	if err != nil {
 		helpers.ServerError(w, err)
+		return
+	}
+	restriction := models.RoomRestriction{
+		RoomID:        roomID,
+		ReservationID: reservID,
+		RestrictionID: 1,
+		StartDate:     startDate,
+		EndDate:       endDate,
+	}
+
+	err = m.DB.AddRoomRestriction(restriction)
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
 	}
 
 	m.App.Session.Put(r.Context(), "reservation", reservation)

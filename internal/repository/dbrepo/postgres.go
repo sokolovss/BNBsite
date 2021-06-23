@@ -11,15 +11,17 @@ func (m *postgresDBRepo) AllUsers() bool {
 }
 
 //AddReservation inserts reservation to database
-func (m *postgresDBRepo) AddReservation(res models.Reservation) error {
+func (m *postgresDBRepo) AddReservation(res models.Reservation) (int, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	stmt := `insert into reservations (first_name,last_name,email,phone,start_date,end_date,room_id,
-		created_at,updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9)`
+	var resID int
 
-	_, err := m.DB.ExecContext(ctx, stmt,
+	stmt := `insert into reservations (first_name,last_name,email,phone,start_date,end_date,room_id,
+		created_at,updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9) returning id`
+
+	err := m.DB.QueryRowContext(ctx, stmt,
 		res.FirstName,
 		res.LastName,
 		res.Email,
@@ -27,6 +29,33 @@ func (m *postgresDBRepo) AddReservation(res models.Reservation) error {
 		res.StartDate,
 		res.EndDate,
 		res.RoomID,
+		time.Now(),
+		time.Now(),
+	).Scan(&resID)
+	if err != nil {
+		return 0, err
+	}
+
+	return resID, nil
+}
+
+//AddRoomRestriction inserts a room restriction to DB
+func (m *postgresDBRepo) AddRoomRestriction(r models.RoomRestriction) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt := `insert into room_restrictions (start_date, end_date, room_id,reservation_id, restriction_id,
+                               created_at, updated_at) 
+		values ($1,$2,$3,$4,$5,$6,$7)`
+
+	_, err := m.DB.ExecContext(
+		ctx,
+		stmt,
+		r.StartDate,
+		r.EndDate,
+		r.RoomID,
+		r.ReservationID,
+		r.RestrictionID,
 		time.Now(),
 		time.Now(),
 	)
