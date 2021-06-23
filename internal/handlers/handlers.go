@@ -13,6 +13,8 @@ import (
 	"github.com/sokolovss/BNBsite/internal/repository/dbrepo"
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 var Repo *Repository
@@ -128,11 +130,30 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		helpers.ServerError(w, err)
 		return
 	}
+
+	layout := "2006-01-02"
+
+	startDate, err := time.Parse(layout, r.Form.Get("start_date"))
+	if err != nil {
+		helpers.ServerError(w, err)
+	}
+	endDate, err := time.Parse(layout, r.Form.Get("end_date"))
+	if err != nil {
+		helpers.ServerError(w, err)
+	}
+	roomID, err := strconv.Atoi(r.Form.Get("room_id"))
+	if err != nil {
+		helpers.ServerError(w, err)
+	}
+
 	reservation := models.Reservation{
 		FirstName: r.Form.Get("first_name"),
 		LastName:  r.Form.Get("last_name"),
 		Email:     r.Form.Get("email"),
 		Phone:     r.Form.Get("phone"),
+		StartDate: startDate,
+		EndDate:   endDate,
+		RoomID:    roomID,
 	}
 	form := forms.New(r.PostForm)
 	form.Required("first_name", "last_name", "email", "phone")
