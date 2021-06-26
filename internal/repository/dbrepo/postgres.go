@@ -65,3 +65,15 @@ func (m *postgresDBRepo) AddRoomRestriction(r models.RoomRestriction) error {
 
 	return nil
 }
+
+func (m * postgresDBRepo) SearchAvailabilityByDates(start, end time.Time) (int, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	stmt:= `select count(id) form room_restrictions where $1 < end_date and $2 > start_date `
+
+	var rowsNum int
+
+
+	return rowsNum, nil
+}
