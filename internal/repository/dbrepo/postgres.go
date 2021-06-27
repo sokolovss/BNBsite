@@ -72,7 +72,20 @@ func (m * postgresDBRepo) SearchAvailabilityByDates(start, end time.Time) (int, 
 
 	stmt:= `select count(id) form room_restrictions where $1 < end_date and $2 > start_date `
 
+
+
+	row := m.DB.QueryRowContext(
+		ctx,
+		stmt,
+		start,
+		end,
+	)
 	var rowsNum int
+	err := row.Scan(&rowsNum)
+
+	if err != nil {
+		return rowsNum,err
+	}
 
 
 	return rowsNum, nil
