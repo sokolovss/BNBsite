@@ -1,6 +1,9 @@
 package repository
 
-import "github.com/sokolovss/BNBsite/internal/models"
+import (
+	"github.com/sokolovss/BNBsite/internal/models"
+	"time"
+)
 
 type DatabaseRepo interface {
 	AllUsers() bool
@@ -8,4 +11,6 @@ type DatabaseRepo interface {
 	AddReservation(res models.Reservation) (int, error)
 
 	AddRoomRestriction(r models.RoomRestriction) error
+
+	SearchAvailabilityByDatesRoomID(start, end time.Time, roomID int) (bool, error)
 }
