@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	config "github.com/sokolovss/BNBsite/internal/config"
 	"github.com/sokolovss/BNBsite/internal/driver"
 	"github.com/sokolovss/BNBsite/internal/forms"
@@ -85,11 +84,19 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _, i := range availableRoom {
-		m.App.InfoLog.Println("ROOM:", i.ID, i.RoomName)
+	if len(availableRoom) == 0 {
+		m.App.Session.Put(r.Context(), "error", "No availability")
+		http.Redirect(w, r, "/search-availability", http.StatusSeeOther)
+		return
 	}
 
-	w.Write([]byte(fmt.Sprintf("Availabe rooms: %v ", availableRoom)))
+	data := make(map[string]interface{})
+	data["rooms"] = availableRoom
+	log.Println(data)
+
+	render.Template(w, r, "choose-room.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 }
 
 type jsonResponse struct {
