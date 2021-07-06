@@ -65,9 +65,31 @@ func (m *Repository) SearchAvailability(w http.ResponseWriter, r *http.Request) 
 
 //PostAvailability handles POST from search-availability form
 func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
-	s := r.Form.Get("start_date")
-	e := r.Form.Get("end_date")
-	w.Write([]byte(fmt.Sprintf("Start date is %s and end date is %s", s, e)))
+
+	layout := "2006-01-02"
+
+	startDate, err := time.Parse(layout, r.Form.Get("start_date"))
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+	endDate, err := time.Parse(layout, r.Form.Get("end_date"))
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	availableRoom, err := m.DB.SearchAvailabilityAllRooms(startDate, endDate)
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
+	for _, i := range availableRoom {
+		m.App.InfoLog.Println("ROOM:", i.ID, i.RoomName)
+	}
+
+	w.Write([]byte(fmt.Sprintf("Availabe rooms: %v ", availableRoom)))
 }
 
 type jsonResponse struct {
