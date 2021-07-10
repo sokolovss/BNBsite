@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/go-chi/chi/v5"
 	config "github.com/sokolovss/BNBsite/internal/config"
 	"github.com/sokolovss/BNBsite/internal/driver"
 	"github.com/sokolovss/BNBsite/internal/forms"
@@ -98,11 +99,19 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 		StartDate: startDate,
 		EndDate:   endDate,
 	}
-	m.App.Session.Put(r.Context(),"reservation",res)
+	m.App.Session.Put(r.Context(), "reservation", res)
 
 	render.Template(w, r, "choose-room.page.tmpl", &models.TemplateData{
 		Data: data,
 	})
+}
+
+func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
+
+	roomID, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		helpers.ServerError(w, err)
+	}
 }
 
 type jsonResponse struct {
