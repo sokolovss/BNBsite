@@ -121,6 +121,7 @@ func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
 	res.RoomID = roomID
 
 	m.App.Session.Put(r.Context(), "reservation", res)
+	http.Redirect(w, r, "/reservation", http.StatusSeeOther)
 }
 
 type jsonResponse struct {
