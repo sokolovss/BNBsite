@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/go-chi/chi/v5"
 	config "github.com/sokolovss/BNBsite/internal/config"
 	"github.com/sokolovss/BNBsite/internal/driver"
@@ -168,9 +169,14 @@ func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) 
 
 //Reservation renders search-availability page
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
-	var emptyReservation models.Reservation
+	//var emptyReservation models.Reservation
+	res, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	if !ok {
+		helpers.ServerError(w, errors.New("cannot get reservation out of the session"))
+		return
+	}
 	data := make(map[string]interface{})
-	data["reservation"] = emptyReservation
+	data["reservation"] = res
 
 	render.Template(w, r, "reservation.page.tmpl", &models.TemplateData{
 		Form: forms.New(nil),
