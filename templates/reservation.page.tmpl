@@ -8,10 +8,18 @@
             <div class="col">
                 <h1 class="text-center mt-4">Make reservation</h1>
 
+                <p><strong>Reservation details</strong></p><br>
+                Arrival: {{index .StringMap "start_date"}}<br>
+                Departure: {{index .StringMap "end_date"}}
+
+
                 {{$res := index .Data "reservation" }}
 
                 <form method="post" action="/reservation" class="" novalidate>
                     <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                    <input type="hidden" name="start_date" value="{{index .StringMap "start_date"}}">
+                    <input type="hidden" name="end_date" value="{{index .StringMap "end_date"}}">
+                    <input type="hidden" name="room_id" value="{{$res.RoomID}}">
 
                     <div class="form-group mt-5">
                         <label for="first_name">First name:</label>
@@ -60,7 +68,6 @@
                                value="{{$res.Phone}}">
                     </div>
 
-                    <input type="hidden" name="room_id" value="1">
 
                     <hr>
                     <input type="submit" class="btn btn-primary" Value="Make Reservation">
