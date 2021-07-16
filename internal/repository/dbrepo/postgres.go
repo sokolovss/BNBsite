@@ -78,7 +78,7 @@ func (m *postgresDBRepo) SearchRoomByID(roomID int) (models.Room, error) {
 		stmt,
 		roomID,
 	)
-	err := row.Scan(room.ID, room.RoomName, room.CreatedAt, room.UpdatedAt)
+	err := row.Scan(&room.ID, &room.RoomName, &room.CreatedAt, &room.UpdatedAt)
 	if err != nil {
 		return room, err
 	}
