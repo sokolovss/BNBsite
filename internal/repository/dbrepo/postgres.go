@@ -82,6 +82,7 @@ func (m *postgresDBRepo) SearchRoomByID(roomID int) (models.Room, error) {
 	if err != nil {
 		return room, err
 	}
+
 	return room, nil
 
 }

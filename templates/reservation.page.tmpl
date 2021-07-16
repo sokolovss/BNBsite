@@ -8,12 +8,13 @@
             <div class="col">
                 <h1 class="text-center mt-4">Make reservation</h1>
 
+                {{$res := index .Data "reservation" }}
+
                 <p><strong>Reservation details</strong></p><br>
                 Arrival: {{index .StringMap "start_date"}}<br>
-                Departure: {{index .StringMap "end_date"}}
+                Departure: {{index .StringMap "end_date"}}<br>
+                Your room: {{$res.Room.RoomName}}
 
-
-                {{$res := index .Data "reservation" }}
 
                 <form method="post" action="/reservation" class="" novalidate>
                     <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">

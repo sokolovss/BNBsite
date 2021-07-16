@@ -183,7 +183,8 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 		helpers.ServerError(w, err)
 		return
 	}
-
+	res.Room.RoomName = room.RoomName
+	log.Println(room.RoomName)
 	stringMap := make(map[string]string)
 	stringMap["start_date"] = sd
 	stringMap["end_date"] = ed
@@ -194,6 +195,7 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "reservation.page.tmpl", &models.TemplateData{
 		Form:      forms.New(nil),
 		StringMap: stringMap,
+		Data:      data,
 	})
 }
 
