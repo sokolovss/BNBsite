@@ -178,6 +178,12 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 	sd := res.StartDate.Format("2006-01-02")
 	ed := res.EndDate.Format("2006-01-02")
 
+	room, err := m.DB.SearchRoomByID(res.RoomID)
+	if err != nil {
+		helpers.ServerError(w, err)
+		return
+	}
+
 	stringMap := make(map[string]string)
 	stringMap["start_date"] = sd
 	stringMap["end_date"] = ed
