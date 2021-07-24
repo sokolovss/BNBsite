@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/go-chi/chi/v5"
 	config "github.com/sokolovss/BNBsite/internal/config"
 	"github.com/sokolovss/BNBsite/internal/driver"
@@ -143,12 +144,17 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 
 	roomID, _ := strconv.Atoi(r.Form.Get("room_id"))
 
-	available, _ := m.DB.SearchAvailabilityByDatesRoomID(startDate, endDate, roomID)
+	fmt.Println(startDate, endDate, roomID)
+
+	available, err := m.DB.SearchAvailabilityByDatesRoomID(startDate, endDate, roomID)
+	if err != nil {
+		helpers.ServerError(w, err)
+	}
 
 	resp := jsonResponse{
 		OK: available,
 
-		Message: "Available",
+		Message: "",
 	}
 
 	out, err := json.MarshalIndent(resp, "", "     ")
