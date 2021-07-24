@@ -214,23 +214,23 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	layout := "2006-01-02"
-
-	startDate, err := time.Parse(layout, r.Form.Get("start_date"))
-	if err != nil {
-		helpers.ServerError(w, err)
-		return
-	}
-	endDate, err := time.Parse(layout, r.Form.Get("end_date"))
-	if err != nil {
-		helpers.ServerError(w, err)
-		return
-	}
-	roomID, err := strconv.Atoi(r.Form.Get("room_id"))
-	if err != nil {
-		helpers.ServerError(w, err)
-		return
-	}
+	//layout := "2006-01-02"
+	//
+	//startDate, err := time.Parse(layout, r.Form.Get("start_date"))
+	//if err != nil {
+	//	helpers.ServerError(w, err)
+	//	return
+	//}
+	//endDate, err := time.Parse(layout, r.Form.Get("end_date"))
+	//if err != nil {
+	//	helpers.ServerError(w, err)
+	//	return
+	//}
+	//roomID, err := strconv.Atoi(r.Form.Get("room_id"))
+	//if err != nil {
+	//	helpers.ServerError(w, err)
+	//	return
+	//}
 	reservation.FirstName = r.Form.Get("first_name")
 	reservation.LastName = r.Form.Get("last_name")
 	reservation.Phone = r.Form.Get("phone")
