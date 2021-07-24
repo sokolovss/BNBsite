@@ -184,7 +184,9 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	res.Room.RoomName = room.RoomName
-	log.Println(room.RoomName)
+
+	m.App.Session.Put(r.Context(), "reservation", res)
+
 	stringMap := make(map[string]string)
 	stringMap["start_date"] = sd
 	stringMap["end_date"] = ed
@@ -201,6 +203,11 @@ func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 
 //PostReservation handles posting of reservation form
 func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	if !ok {
+		helpers.ServerError(w, errors.New("can't get data from session"))
+	}
+
 	err := r.ParseForm()
 	if err != nil {
 		helpers.ServerError(w, err)
@@ -224,16 +231,19 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		helpers.ServerError(w, err)
 		return
 	}
-
-	reservation := models.Reservation{
-		FirstName: r.Form.Get("first_name"),
-		LastName:  r.Form.Get("last_name"),
-		Email:     r.Form.Get("email"),
-		Phone:     r.Form.Get("phone"),
-		StartDate: startDate,
-		EndDate:   endDate,
-		RoomID:    roomID,
-	}
+	reservation.FirstName = r.Form.Get("first_name")
+	reservation.LastName = r.Form.Get("last_name")
+	reservation.Phone = r.Form.Get("phone")
+	reservation.Email = r.Form.Get("email")
+	//reservation := models.Reservation{
+	//	FirstName: r.Form.Get("first_name"),
+	//	LastName:  r.Form.Get("last_name"),
+	//	Email:     r.Form.Get("email"),
+	//	Phone:     r.Form.Get("phone"),
+	//	StartDate: startDate,
+	//	EndDate:   endDate,
+	//	RoomID:    roomID,
+	//}
 	form := forms.New(r.PostForm)
 	form.Required("first_name", "last_name", "email", "phone")
 	form.MinLength("first_name", 3, r)
