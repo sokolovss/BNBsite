@@ -126,6 +126,7 @@ func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/reservation", http.StatusSeeOther)
 }
 
+//BookRoom takes URL parameters. Builds sessional variable, redirects to make reservation page
 func (m *Repository) BookRoom(w http.ResponseWriter, r *http.Request) {
 	//id, s , e parameters
 	ID, _ := strconv.Atoi(r.URL.Query().Get("id"))
@@ -146,6 +147,9 @@ func (m *Repository) BookRoom(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	res.Room.RoomName = room.RoomName
+
+	m.App.Session.Put(r.Context(), "reservation", res)
+	http.Redirect(w, r, "/reservation", http.StatusSeeOther)
 
 }
 
