@@ -1,1 +1,1 @@
-DELETE FROM public.room_restrictions;
+DELETE FROM restrictions;
