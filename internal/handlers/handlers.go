@@ -108,6 +108,7 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+//ChooseRoom displays list of available rooms
 func (m *Repository) ChooseRoom(w http.ResponseWriter, r *http.Request) {
 
 	roomID, err := strconv.Atoi(chi.URLParam(r, "id"))
