@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/alexedwards/scs/v2"
+	"github.com/sokolovss/BNBsite/internal/models"
 	"html/template"
 	"log"
 )
@@ -14,4 +15,5 @@ type AppConfig struct {
 	ErrorLog      *log.Logger
 	IsProduction  bool
 	Session       *scs.SessionManager
+	MailChan      chan models.MailData
 }

@@ -32,12 +32,15 @@ func main() {
 		log.Fatal(err)
 	}
 
+	defer close(app.MailChan)
+
 	fmt.Printf("Starting on port %v\n", portN)
 
 	srv := &http.Server{
 		Addr:    portN,
 		Handler: routes(&app),
 	}
+
 	err = srv.ListenAndServe()
 	if err != nil {
 		log.Fatal("Error  - starting the server", err)
@@ -51,6 +54,9 @@ func run() (*driver.DB, error) {
 	gob.Register(models.Room{})
 	gob.Register(models.Restriction{})
 	///////
+
+	mailChan := make(chan models.MailData)
+	app.MailChan = mailChan
 
 	app.IsProduction = false
 	app.UseCache = false
