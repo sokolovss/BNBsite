@@ -32,7 +32,7 @@ func sendEmail(m models.MailData) {
 
 	msg := mail.NewMSG()
 	msg.SetFrom(m.From).AddTo(m.To).SetSubject(m.Subject)
-	msg.SetBody(mail.TextHTML, "Hello <strong>World</strong>!")
+	msg.SetBody(mail.TextHTML, m.Content)
 
 	err = msg.Send(client)
 	if err != nil {
