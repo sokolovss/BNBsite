@@ -319,7 +319,7 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	//sending notification - guest
 	htmlMessage := fmt.Sprintf(`
 	<strong>Reservation Confirmation</strong><br>
-	Dear %s:,<br>
+	Dear %s,<br>
 	This is confirmation of your reservation from %s to %s.
 	`, reservation.FirstName, reservation.StartDate.Format("2006-01-02"), reservation.EndDate.Format("2006-01-02"))
 
@@ -330,6 +330,21 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		Content: htmlMessage,
 	}
 
+	m.App.MailChan <- msg
+
+	//sending notification - owner
+	htmlMessage = fmt.Sprintf(`
+	<strong>New reservation</strong><br>
+	New reservation from %s to %s for room: %s.<br>
+	%s %s, Phone: %s
+	`, reservation.StartDate.Format("2006-01-02"), reservation.EndDate.Format("2006-01-02"), reservation.Room.RoomName, reservation.FirstName, reservation.LastName, reservation.Phone)
+
+	msg = models.MailData{
+		To:      "owner@hotel.com",
+		From:    "me@here.com",
+		Subject: "New room reservation",
+		Content: htmlMessage,
+	}
 	m.App.MailChan <- msg
 
 	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
