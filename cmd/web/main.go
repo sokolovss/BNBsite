@@ -33,6 +33,7 @@ func main() {
 	}
 
 	defer close(app.MailChan)
+	listenForMail()
 
 	fmt.Printf("Starting on port %v\n", portN)
 
