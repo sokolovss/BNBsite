@@ -369,3 +369,10 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	})
 
 }
+
+//ShowLogin is a handler for login page
+func (m *Repository) ShowLogin(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, r, "login.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+	})
+}
