@@ -149,3 +149,7 @@ func (m *postgresDBRepo) SearchAvailabilityAllRooms(start, end time.Time) ([]mod
 	}
 	return rooms, nil
 }
+
+func (m *postgresDBRepo) GetUserByID(id int) (models.User, error) {
+
+}
