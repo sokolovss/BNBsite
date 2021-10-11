@@ -376,3 +376,18 @@ func (m *Repository) ShowLogin(w http.ResponseWriter, r *http.Request) {
 		Form: forms.New(nil),
 	})
 }
+
+//PostShowLogin is a handler for login page
+func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
+	_ := m.App.Session.RenewToken(r.Context())
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+	}
+	form := forms.New(r.PostForm)
+	form.Required("email", "password")
+	if !form.Valid() {
+		//TODO take user back
+	}
+
+}
