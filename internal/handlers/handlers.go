@@ -379,7 +379,7 @@ func (m *Repository) ShowLogin(w http.ResponseWriter, r *http.Request) {
 
 //PostShowLogin is a handler for login page
 func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
-	_ := m.App.Session.RenewToken(r.Context())
+	_ = m.App.Session.RenewToken(r.Context())
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)
@@ -389,5 +389,13 @@ func (m *Repository) PostShowLogin(w http.ResponseWriter, r *http.Request) {
 	if !form.Valid() {
 		//TODO take user back
 	}
+
+	id, _, err := m.DB.Authenticate(r.Form.Get("email"), r.Form.Get("pssword"))
+	if err != nil {
+		fmt.Println(err)
+		m.App.Session.Put(r.Context(), "error", "Invalid login credentials")
+	}
+
+	m.App.Session.Put(r.Context(), "user_id", id)
 
 }
